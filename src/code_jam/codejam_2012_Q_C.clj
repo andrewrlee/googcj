@@ -2,12 +2,13 @@
   (:require [clojure.string :as string])
   (:gen-class))
 
-(defn rotations [s] 
-  (map #(Integer/parseInt %)
-       (remove (fn [s] (string/starts-with? s "0"))
-               (->> s
-                    (iterate #(apply str (concat (drop 1 %) (take 1 %))))
-                    (take (count s))))))
+(defn rotations [s]
+  (->> s
+       (iterate #(apply str (concat (drop 1 %) (take 1 %))))
+       (take (count s))
+       (remove (fn [s] (string/starts-with? s "0")))
+       (map #(Integer/parseInt %))))
+
 
 (defn solver [line]
   (let [[min max] (map #(Integer/parseInt %) (string/split line #" "))]
